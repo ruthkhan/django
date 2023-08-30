@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    <title>Dojo Survey Index</title>
+</head>
+<body class="row justify-content-center">
+    <div class="container col-md-4 col-lg-5 my-5 row p-4 pt-lg-5 align-items-center rounded-3 border shadow-lg text-bg-dark">
+        <!-- <div class="row p-4 pt-lg-5 align-items-center rounded-3 border shadow-lg text-bg-dark"> -->
+        <form action="/result" method="POST">
+        {% csrf_token %}
+            <div class="col-12 py-4">
+                <label for="name" class="form-label">Your Name: </label>
+                <input type="text" name="name" class="form-control">
+            </div>
+            <div class="col-12">
+                <label for="location" class="form-label">Dojo Location: </label>
+                <select name="location" class="form-select dropdown-menu position-static d-grid gap-1 p-2 rounded-3 mx-0 border-0 shadow w-220px" data-bs-theme="light">
+                    <option value="" class="dropdown-item rounded-2 active" selected disabled hidden>-- Select A Location --</option>
+                    <option value="Bellevue" class="dropdown-item rounded-2">Bellevue</option>
+                    <option value="Burbank" class="dropdown-item rounded-2">Burbank</option>
+                    <option value="Chicago" class="dropdown-item rounded-2">Chicago</option>
+                    <option value="San Jose" class="dropdown-item rounded-2">San Jose</option>
+                    <option value="Seattle" class="dropdown-item rounded-2">Seattle</option>
+                    <option value="Online" class="dropdown-item rounded-2">Online</option>
+                </select>
+            </div>
+            <div class="col-12 py-4">
+                <label for="language" class="form-label">Favourite Language: </label>
+                <select name="language" class="form-select dropdown-menu position-static d-grid gap-1 p-2 rounded-3 mx-0 border-0 shadow w-220px" data-bs-theme="light">
+                    <option value="" class="dropdown-item rounded-2" selected disabled hidden>-- Select A Language --</option>
+                    <option value="HTML" class="dropdown-item rounded-2">HTML</option>
+                    <option value="CSS" class="dropdown-item rounded-2">CSS</option>
+                    <option value="Javascript" class="dropdown-item rounded-2">Javascript</option>
+                    <option value="Python" class="dropdown-item rounded-2">Python</option>
+                    <option value="C#" class="dropdown-item rounded-2">C#</option>
+                    <option value="Java" class="dropdown-item rounded-2">Java</option>
+                </select>
+            </div>
+            <div class="col-12 py-4">
+                <label for="comments" class="form-label">Comment (optional): </label>
+                <textarea class="form-control" name="comments" rows="10"></textarea>
+            </div>
+            <div class="row justify-content-end">
+                <button class="m-2 btn btn-warning btn-lg col-2" type="submit">Button</button>
+            </div>
+        </form>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+</body>
+</html>
