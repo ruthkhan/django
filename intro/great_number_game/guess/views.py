@@ -1,6 +1,8 @@
 from django.shortcuts import render, redirect
 import random
 
+leaderboard = []
+
 # Create your views here.
 def index(request):
     if 'tries' not in request.session: 
@@ -12,56 +14,50 @@ def index(request):
         "comment": request.session['comment'],
         "container": request.session['status'],
         "number": request.session['number'],
+        "tries": request.session['tries'],
     }
+    # print (request.session['number']) - for checking
     return render(request, "index.html", context)
 
 def check(request): 
-    request.session['tries'] +=1
     guessed = int(request.POST['number'])
     answer = str(request.session['number']) + " was the number!"
-    if guessed < request.session['number'] and request.session['tries'] <= 5: 
+    if guessed < request.session['number'] and request.session['tries'] < 5: 
         request.session['comment'] = "Too low!"
         request.session['status'] = "wrong"
-        return redirect('/')
-    elif guessed > request.session['number'] and request.session['tries'] <= 5: 
+    elif guessed > request.session['number'] and request.session['tries'] < 5: 
         request.session['comment'] = "Too high!"
         request.session['status'] = "wrong"
-        return redirect('/')
-    elif request.session['tries'] > 5: 
-        request.session['comment'] = "You Lose! " + answer
+    elif guessed != request.session['number'] and request.session['tries'] >= 5: 
+        request.session['comment'] = f"You Lose! {answer}"
         request.session['status'] = "wrong"
-        return redirect('/')
     else: 
         request.session['status'] = "right"
-        request.session['comment'] = "You Win! " + answer
-        return redirect('/')
-
-# def lose(): 
-#     return render_template("lose.html", comment=session['comment'], tries=session['tries'])
-
-# @app.route('/correct')
-# def correct(): 
-#     return render_template("correct.html", comment=session['comment'], tries=session['tries'])
+        attempts = int(request.session['tries']) + 1
+        request.session['comment'] = f"You Win! {answer} You took {attempts} attempts."
+    request.session['tries'] +=1
+    return redirect('/')
 
 def reset(request): 
     request.session.clear()
     return redirect('/')
 
-# @app.route('/leader', methods=["POST"])
-# def leader():
-#     if len(leaderboard) == 0: 
-#         leaderboard.append({'name':request.form['leader'], 'tries':session['tries']})
-#     else: 
-#         for i in range(len(leaderboard)): 
-#             if session['tries'] <= leaderboard[i]['tries']: 
-#                 leaderboard.insert(i, {'name':request.form['leader'], 'tries':session['tries']})
-#                 break
-#             elif i == (len(leaderboard)-1): 
-#                 leaderboard.append({'name':request.form['leader'], 'tries':session['tries']})
-#             else: 
-#                 continue
-#     return render_template("leader.html", leaderboard=leaderboard)
+def leader(request):
+    if len(leaderboard) == 0: #if nobody else on leaderboard, add to board anywhere
+        leaderboard.append({'name':request.POST['leader'], 'tries':request.session['tries']})
+    else: 
+        for i in range(len(leaderboard)): #iterate through existing leaders to see where to insert this score
+            if request.session['tries'] <= leaderboard[i]['tries']: 
+                leaderboard.insert(i, {'name':request.POST['leader'], 'tries':request.session['tries']})
+                break
+            elif i == (len(leaderboard)-1): 
+                leaderboard.append({'name':request.POST['leader'], 'tries':request.session['tries']})
+            else: 
+                continue
+    return redirect("/viewboard")
 
-# @app.route('/viewboard', methods=["POST"])
-# def viewboard(): 
-#     return render_template("leader.html", leaderboard=leaderboard)
+def viewboard(request): 
+    context = {
+        "leaderboard": leaderboard,
+    }
+    return render(request, "leader.html", context)
