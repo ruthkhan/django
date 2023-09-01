@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    <title>Ninja Money</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+</head>
+<body onload={{ state|safe }}>
+    <div class="container py-3">
+        <div class="col-8">
+            <h5 class="d-inline-flex">Your Gold: </h2>
+            <p class="d-inline-flex border border-black rounded-1 w-25 px-2 mx-2">{{gold}}</p>
+            <a href="/reset" class="d-inline-flex mx-4 btn btn-warning btn-lg my-1">Reset</a>
+        </div>
+
+        <div class="row my-3 text-center">
+            <div class="col">
+                <div class="card mb-4 rounded-3 shadow-sm p-3 justify-content-center">
+                    <h4 class="my-3 fw-normal">Farm</h4>
+                    <p>(earns -10 to 20 gold)</p>
+                    <a href="/process_money/farm" class="mt-4 w-75 btn btn-lg btn-outline-primary mx-auto">Find Gold!</a>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card mb-4 rounded-3 shadow-sm p-3">
+                    <h4 class="my-3 fw-normal">Cave</h4>
+                    <p>(earns -5 to 10 gold)</p>
+                    <a href="/process_money/cave" class="mt-4 w-75 btn btn-lg btn-outline-primary mx-auto">Find Gold!</a>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card mb-4 rounded-3 shadow-sm p-3">
+                    <h4 class="my-3 fw-normal">House</h4>
+                    <p>(earns 2 to 5 gold)</p>
+                    <a href="/process_money/house" class="mt-4 w-75 btn btn-lg btn-outline-primary mx-auto">Find Gold!</a>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card mb-4 rounded-3 shadow-sm p-3">
+                    <h4 class="my-3 fw-normal">Casino</h4>
+                    <p>(earns/takes 0-50 gold)</p>
+                    <a href="/process_money/casino" class="mt-4 w-75 btn btn-lg btn-outline-primary mx-auto">Find Gold!</a>
+            </div>    
+        </div>
+
+        <div class="row row-cols-1 ms-1 text-start">
+            <h5 class="justify-self-start">Activities: </h5>
+            <div class="activity p-2 bg-body-tertiary border rounded-3 overflow-auto">
+                {% for i in activities %}
+                {{ i|safe }}
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous">
+    </script>
+    <script src="{% static 'script.js' %}"></script>
+</body>
+</html>
