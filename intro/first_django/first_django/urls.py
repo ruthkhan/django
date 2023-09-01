@@ -18,6 +18,8 @@ Including another URLconf
 from django.urls import path, include
 
 urlpatterns = [
-    path('', include('single_app.urls')),
+    path('blogs', include('single_app.urls')),
+    path('surveys', include('surveys.urls')),
+    path('',include('users.urls'))
     # path('admin/', admin.site.urls),
 ]
