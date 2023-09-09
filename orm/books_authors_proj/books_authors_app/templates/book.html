@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    <title>Books & Authors</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+</head>
+<body>
+    <div class="row align-items-md-stretch m-5">
+        <div class="col-md-8">
+            <div class="h-100 p-5 text-bg-dark rounded-3">
+                <h1 class="mb-3">{{ title }}</h1>
+                <p>ID: {{ id }}</p>
+                <p>Description: {{ description }}</p>
+                <p>Authors: </p>
+                <ul>
+                    {% for i in author_data %}
+                    <li>{{ i.first_name }} {{ i.last_name }}</li>
+                    {% endfor %}
+                </ul>
+                <form action="/add_book_author" method="post">
+                    {% csrf_token %}
+                    <input type="hidden" name="origin" value="books/{{ id }}">
+                    <input type="hidden" name="book_id" value="{{ id }}">
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <select class="form-select" name="author_id">
+                                {% for i in all_authors %}
+                                <option value="{{ i.id }}">{{ i.first_name }} {{ i.last_name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-sm-2">
+                            <button class="btn btn-outline-secondary" type="submit">Add</button>
+                        </div>
+                    </div>
+                </form>
+            </div>  
+        </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+</body>
+</html>
